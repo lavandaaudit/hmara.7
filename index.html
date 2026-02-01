@@ -12,8 +12,8 @@
             --secondary: #00ccff;
             --danger: #ff3366;
             --warning: #ffcc00;
-            --glass: rgba(10, 20, 30, 0.95);
-            --border: rgba(0, 255, 204, 0.3);
+            --glass: rgba(10, 20, 30, 0.92);
+            --border: rgba(0, 255, 204, 0.25);
         }
 
         * {
@@ -37,7 +37,7 @@
             z-index: 1;
         }
 
-        /* UI DOCK - ADAPTIVE */
+        /* UI DOCK - ТЕПЕР ШИРОКИЙ НА ПК */
         #ui-dock {
             position: absolute;
             top: 50%;
@@ -45,14 +45,15 @@
             transform: translate(-50%, -50%) scale(0.9);
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            gap: 20px;
+            align-items: stretch;
+            gap: 25px;
             z-index: 100;
             padding: 20px;
-            width: max-content;
-            max-width: 100vw;
+            width: 95vw;
+            max-width: 1300px;
         }
 
+        /* ПОВЕРНЕННЯ ДО КОЛОНКИ НА МОБІЛЬНИХ */
         @media (max-width: 1000px) {
             #ui-dock {
                 position: relative;
@@ -62,55 +63,57 @@
                 flex-direction: column;
                 align-items: center;
                 width: 100%;
-                padding: 10px;
+                padding: 15px 10px;
                 gap: 15px;
             }
         }
 
         #cloud-barometer {
             width: 320px;
+            min-width: 320px;
             background: var(--glass);
             border: 1px solid var(--border);
-            border-radius: 14px;
-            backdrop-filter: blur(20px);
+            border-radius: 12px;
+            backdrop-filter: blur(25px);
             display: flex;
             flex-direction: column;
-            padding: 15px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.9);
+            padding: 18px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
             pointer-events: auto;
         }
 
         @media (max-width: 350px) {
             #cloud-barometer {
                 width: 95%;
+                min-width: 0;
             }
         }
 
         #data-projection {
-            flex: 1;
-            max-width: 1000px;
-            min-width: 320px;
+            flex: 2;
             display: flex;
             flex-direction: column;
             gap: 15px;
             background: var(--glass);
-            padding: 15px;
-            border-radius: 14px;
+            padding: 20px;
+            border-radius: 12px;
             border: 1px solid var(--border);
-            backdrop-filter: blur(20px);
+            backdrop-filter: blur(25px);
             pointer-events: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.9);
         }
 
         @media (max-width: 1000px) {
             #data-projection {
                 width: 320px;
+                flex: none;
             }
         }
 
         .proj-section {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 10px;
+            gap: 15px;
         }
 
         @media (max-width: 600px) {
@@ -122,59 +125,62 @@
         .proj-item {
             display: flex;
             flex-direction: column;
+            background: rgba(0, 255, 204, 0.03);
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(0, 255, 204, 0.05);
         }
 
         .proj-label {
             font-size: 8px;
             color: var(--accent);
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             opacity: 0.6;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
             text-transform: uppercase;
         }
 
         .proj-value {
-            font-size: 16px;
+            font-size: 18px;
             color: #fff;
             font-weight: bold;
         }
 
         .proj-value span {
-            font-size: 9px;
+            font-size: 10px;
             opacity: 0.4;
-            font-weight: normal;
-            margin-left: 2px;
+            margin-left: 3px;
         }
 
         .inst-header {
-            font-size: 10px;
-            letter-spacing: 2px;
+            font-size: 11px;
+            letter-spacing: 3px;
             color: var(--accent);
             text-transform: uppercase;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             border-bottom: 1px solid var(--border);
-            padding-bottom: 6px;
+            padding-bottom: 8px;
             text-align: center;
             font-weight: bold;
         }
 
         #alert-zone {
             min-height: 20px;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 5px;
         }
 
         .alert-item {
             background: rgba(255, 51, 102, 0.1);
             border: 1px solid var(--danger);
             color: var(--danger);
-            font-size: 8px;
-            padding: 4px;
-            border-radius: 3px;
+            font-size: 9px;
+            padding: 5px;
+            border-radius: 4px;
             text-align: center;
-            animation: pulse-alert 2s infinite;
+            animation: pulse-alert 2.5s infinite;
         }
 
         .alert-item.warning {
@@ -184,113 +190,120 @@
         }
 
         @keyframes pulse-alert {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
+            0%, 100% { opacity: 1; text-shadow: 0 0 5px currentColor; }
+            50% { opacity: 0.7; text-shadow: none; }
         }
 
         .viz-container {
             width: 100%;
             height: 180px;
-            background: #030608;
+            background: #020406;
             border-radius: 8px;
             overflow: hidden;
-            margin-bottom: 12px;
+            margin-bottom: 15px;
             position: relative;
-            border: 1px solid rgba(0, 255, 204, 0.1);
+            border: 1px solid rgba(0, 255, 204, 0.15);
         }
 
         .data-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            margin-bottom: 10px;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
         .data-box {
-            font-size: 10px;
+            font-size: 11px;
             border-left: 1px solid var(--border);
-            padding-left: 8px;
+            padding-left: 10px;
         }
 
         .data-box label {
             display: block;
-            font-size: 7px;
+            font-size: 8px;
             color: var(--accent);
-            opacity: 0.5;
+            opacity: 0.6;
             text-transform: uppercase;
         }
 
         #scientific-desc {
-            margin-top: 5px;
-            font-size: 9px;
-            line-height: 1.5;
-            color: #6fffa0;
-            border-left: 1px solid var(--accent);
-            padding-left: 12px;
+            margin-top: 10px;
+            font-size: 10px;
+            line-height: 1.6;
+            color: #b0ffd0;
+            border-left: 2px solid var(--accent);
+            padding-left: 15px;
             text-align: justify;
             white-space: pre-wrap;
-            max-height: 200px;
-            overflow-y: auto;
+            background: rgba(0, 255, 204, 0.02);
+            padding: 10px;
         }
 
         .city-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 4px;
+            gap: 5px;
             margin-top: 10px;
         }
 
         .city-btn {
-            background: transparent;
+            background: rgba(0, 255, 204, 0.05);
             border: 1px solid var(--border);
             color: var(--accent);
-            font-size: 7.5px;
-            padding: 5px 2px;
+            font-size: 8px;
+            padding: 6px 2px;
             cursor: pointer;
-            border-radius: 3px;
+            border-radius: 4px;
             text-align: center;
             white-space: nowrap;
-            transition: all 0.2s;
+            transition: all 0.3s;
+        }
+
+        .city-btn:hover {
+            background: rgba(0, 255, 204, 0.15);
         }
 
         .city-btn.active {
             background: var(--accent);
             color: #000;
-            box-shadow: 0 0 10px var(--accent);
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.4);
+            border-color: #fff;
         }
 
         #sys-log {
-            font-size: 7px;
+            font-size: 8px;
             color: var(--accent);
             opacity: 0.5;
-            height: 35px;
-            margin-top: 10px;
+            height: 40px;
+            margin-top: 15px;
             display: flex;
             flex-direction: column-reverse;
             overflow: hidden;
             border-top: 1px solid var(--border);
-            padding-top: 5px;
+            padding-top: 8px;
         }
 
         .proj-title-big {
-            font-size: 24px;
-            letter-spacing: 8px;
+            font-size: 32px;
+            letter-spacing: 15px;
             color: var(--accent);
-            opacity: 0.3;
+            opacity: 0.2;
             text-align: center;
-            margin-top: 5px;
+            margin-top: 10px;
             width: 100%;
             text-transform: uppercase;
+            font-weight: 900;
         }
 
         .mini-compass {
             position: absolute;
-            bottom: 8px;
-            right: 8px;
+            bottom: 10px;
+            right: 10px;
             width: 45px;
             height: 45px;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0, 0, 0, 0.6);
             border-radius: 50%;
+            border: 1px solid rgba(0, 255, 204, 0.2);
         }
     </style>
 </head>
@@ -299,7 +312,7 @@
     <canvas id="bg-canvas"></canvas>
 
     <div id="ui-dock">
-        <!-- БАРОМЕТР -->
+        <!-- БАРОМЕТР (ЛІВА ПАНЕЛЬ) -->
         <div id="cloud-barometer">
             <div class="inst-header">IBONARIUM · ATMOS ANALYST</div>
             <div id="alert-zone"></div>
@@ -317,7 +330,7 @@
             <div id="sys-log"></div>
         </div>
 
-        <!-- АНАЛІТИКА -->
+        <!-- АНАЛІТИКА (ПРАВА ПАНЕЛЬ) -->
         <div id="data-projection">
             <div class="proj-section">
                 <div class="proj-item">
@@ -375,8 +388,8 @@
             </div>
 
             <div id="scientific-desc">
-                <b style="color:var(--accent); font-size: 10px;">[ ГЛИБОКИЙ ТЕРМОДИНАМІЧНИЙ АНАЛІЗ ]</b><br>
-                <span id="detailed-desc">Очікування потоку даних...</span>
+                <b style="color:var(--accent); font-size: 11px;">[ ГЛИБОКИЙ ТЕРМОДИНАМІЧНИЙ АНАЛІЗ ]</b><br>
+                <span id="detailed-desc">Очікування потоку даних для аналізу атмосфери...</span>
             </div>
 
             <div class="proj-title-big" id="cityBigName">---</div>
@@ -392,7 +405,7 @@
             { name: "Відень", lat: 48.20, lon: 16.37 }, { name: "Пекін", lat: 39.90, lon: 116.40 }, { name: "Лагос", lat: 6.52, lon: 3.37 }, { name: "Л. Анджелес", lat: 34.05, lon: -118.24 }
         ];
 
-        let weather = { cover: 0, low: 0, mid: 0, high: 0, hum: 50, wind: 0, dir: 0 };
+        let weather = { cover: 0, hum: 50, wind: 0, dir: 0 };
         const cityBox = document.getElementById('cityContainer');
         cities.forEach((c, i) => {
             const btn = document.createElement('div');
@@ -413,7 +426,7 @@
         const bgCanvas = document.getElementById('bg-canvas');
         const bgCtx = bgCanvas.getContext('2d');
 
-        const stars = Array.from({ length: 300 }, () => ({ x: Math.random(), y: Math.random(), s: Math.random() * 1.5, o: Math.random() }));
+        const stars = Array.from({ length: 400 }, () => ({ x: Math.random(), y: Math.random(), s: Math.random() * 1.5, o: Math.random() }));
 
         function resize() {
             canvas.width = canvas.parentElement.clientWidth; 
@@ -443,7 +456,7 @@
             g.addColorStop(0, '#0a1a20'); g.addColorStop(1, '#000');
             ctx.fillStyle = g; ctx.fillRect(0, 0, canvas.width, canvas.height);
             
-            const count = Math.min(50, 20 + (weather.cover / 2));
+            const count = Math.min(60, 20 + (weather.cover / 2));
             for (let i = 0; i < count; i++) {
                 let x = (Math.sin(i * 0.45 + time * 0.1) * 120 + 120 + (Math.cos(dir) * (weather.wind || 0) * time * 5) % 250) % 250 - 25;
                 let y = (Math.cos(i * 0.82 + time * 0.12) * 70 + 70 + (Math.sin(dir) * (weather.wind || 0) * time * 3) % 180) % 180 - 25;
@@ -492,10 +505,9 @@
                 document.getElementById('sunrise').textContent = new Date(d.daily.sunrise[0]).toLocaleTimeString('uk-UA', timeOpts);
                 document.getElementById('sunset').textContent = new Date(d.daily.sunset[0]).toLocaleTimeString('uk-UA', timeOpts);
 
-                const hourIdx = new Date().getHours();
-                const prevIdx = hourIdx > 0 ? hourIdx - 1 : 0;
-                const deltaP = (d.hourly.surface_pressure[hourIdx] - d.hourly.surface_pressure[prevIdx]).toFixed(2);
-                const deltaT = (d.hourly.temperature_2m[hourIdx] - d.hourly.temperature_2m[prevIdx]).toFixed(2);
+                const hr = new Date().getHours();
+                const deltaP = (d.hourly.surface_pressure[hr] - d.hourly.surface_pressure[hr > 0 ? hr - 1 : 0]).toFixed(2);
+                const deltaT = (d.hourly.temperature_2m[hr] - d.hourly.temperature_2m[hr > 0 ? hr - 1 : 0]).toFixed(2);
 
                 generateDetailedDescription(c, city.name, deltaP, deltaT);
                 updateAnalysis(c, deltaP, deltaT);
@@ -504,29 +516,21 @@
         }
 
         const weatherMap = {
-            0: "СТАН: Ясне небо. Втрата тепла через випромінювання максимальна.",
-            1: "СТАН: Переважно ясно. Незначна адвекція хмарних мас.",
-            2: "СТАН: Мінлива хмарність. Мозаїчна структура сонячної радіації.",
-            3: "СТАН: Суцільна хмарність. Високе альбедо атмосфери.",
-            45: "СТАН: Радіаційний туман. Критичне зниження індексу вертикальної видимості.",
-            51: "СТАН: Легка мряка. Насичення приземного шару повітря вологою.",
-            61: "СТАН: Слабкий дощ. Процес вимивання аерозолів з атмосфери.",
-            71: "СТАН: Тверді опади. Перехід фазового стану води в кристалічну форму.",
-            80: "СТАН: Локальні зливи. Активна конвекція та теплообмін.",
-            95: "СТАН: Грозова активність. Масштабна іонізація та кумулонібусна експансія."
+            0: "Ясне небо. Втрата тепла випромінюванням.", 1: "Переважно ясно. Слабка хмарність.", 
+            2: "Мінлива хмарність. Мозаїчна сонячна радіація.", 3: "Суцільна хмарність. Високе альбедо атмосфери.",
+            45: "Туман. Критичне зниження вертикальної видимості.", 51: "Мряка. Насичення приземного шару вологою.",
+            61: "Слабкий дощ. Вимивання аерозолів.", 71: "Сніг. Кристалізація вологи.",
+            80: "Зливи. Активна конвекція.", 95: "Гроза. Іонізація та кумулонібусна експансія."
         };
 
         function updateAnalysis(c, deltaP, deltaT) {
             const zone = document.getElementById('alert-zone');
             zone.innerHTML = '';
-
             const alerts = [];
             if (c.wind_speed_10m > 15) alerts.push({ text: "!! КРИТИЧНИЙ ВІТЕР !!", type: 'danger' });
-            if (c.wind_gusts_10m > 20) alerts.push({ text: "!! ШТОРМОВІ ПОРИВИ !!", type: 'danger' });
             if (parseFloat(deltaP) < -1.5) alerts.push({ text: "!! СТРІМКЕ ПАДІННЯ ТИСКУ !!", type: 'danger' });
             if (c.uv_index > 6) alerts.push({ text: "!! ВИСОКА УФ-РАДІАЦІЯ !!", type: 'warning' });
             if (c.visibility < 1000) alerts.push({ text: "!! КРИТИЧНИЙ ТУМАН !!", type: 'warning' });
-            if (c.shortwave_radiation > 800) alerts.push({ text: "!! ПІКОВА СОНЯЧНА ЕНЕРГІЯ !!", type: 'warning' });
             if (Math.abs(parseFloat(deltaT)) > 3) alerts.push({ text: "!! ТЕРМІЧНИЙ ШОК МАСИ !!", type: 'warning' });
 
             alerts.forEach(a => {
@@ -535,7 +539,6 @@
                 div.textContent = a.text;
                 zone.appendChild(div);
             });
-
             if (alerts.length === 0) {
                 const div = document.createElement('div');
                 div.className = "alert-item warning";
@@ -549,22 +552,11 @@
         }
 
         function generateDetailedDescription(c, cityName, deltaP, deltaT) {
-            const code = c.weather_code;
-            const desc = weatherMap[code] || "Стабільний стан атмосферного фронту.";
-
-            let report = `[ АНАЛІТИКА: ${cityName.toUpperCase()} ]\n`;
-            report += `ДИНАМІКА: ${desc}\n\n`;
-            report += `[ ТРЕНДИ ]\n`;
-            report += `ТИСК: ${deltaP > 0 ? "Зростання" : "Падіння"} (${Math.abs(deltaP)} hPa/год). `;
-            report += `ТЕРМІКА: ${deltaT > 0 ? "Нагрів" : "Охолодження"} (${deltaT} °C/год).\n\n`;
-            report += `[ ПРОФІЛЬ ]\n`;
-            report += `Точка роси: ${c.dew_point_2m}°C. Відчуття: ${c.apparent_temperature}°C.\n`;
-            report += `Вітер: ${c.wind_speed_10m} м/с (пориви ${c.wind_gusts_10m} м/с).\n`;
-            report += `Радіація: ${c.shortwave_radiation.toFixed(0)} W/m².\n\n`;
-            report += `[ ГІДРОЛОГІЯ ]\n`;
-            if (c.precipitation > 0) report += `Опади: ${c.precipitation.toFixed(1)} мм/год.`;
-            else report += "Опадів не зафіксовано.";
-
+            const desc = weatherMap[c.weather_code] || "Стабільний стан атмосферного фронту.";
+            let report = `[ АНАЛІТИКА: ${cityName.toUpperCase()} ]\nСТАН: ${desc}\n\n`;
+            report += `[ ТРЕНДИ ]\nТИСК: ${deltaP > 0 ? "↗" : "↘"} ${Math.abs(deltaP)} hPa/г. ТЕПЛО: ${deltaT > 0 ? "↗" : "↘"} ${Math.abs(deltaT)} °C/г.\n\n`;
+            report += `[ ПРОФІЛЬ ]\nТочка роси: ${c.dew_point_2m}°C. Відчуття: ${c.apparent_temperature}°C.\nВітер: ${c.wind_speed_10m} м/с (пориви ${c.wind_gusts_10m} м/с).\n\n`;
+            report += `[ ГІДРОЛОГІЯ ]\nХмарність: ${c.cloud_cover}%. Волога ґрунту: ${c.soil_moisture_0_to_1cm ? c.soil_moisture_0_to_1cm.toFixed(3) : 'н/д'}.`;
             document.getElementById('detailed-desc').innerText = report;
         }
 
@@ -573,17 +565,13 @@
             const d = document.createElement('div'); 
             d.textContent = `> ${new Date().toLocaleTimeString()} : ${m}`;
             l.prepend(d); 
-            if (l.childNodes.length > 3) l.removeChild(l.lastChild);
+            if (l.childNodes.length > 4) l.removeChild(l.lastChild);
         }
 
         function loop(t) { 
-            drawStars(t); 
-            drawViz(t); 
-            requestAnimationFrame(loop); 
+            drawStars(t); drawViz(t); requestAnimationFrame(loop); 
         }
-        
-        updateWeather(); 
-        requestAnimationFrame(loop);
+        updateWeather(); requestAnimationFrame(loop);
     </script>
 </body>
 
