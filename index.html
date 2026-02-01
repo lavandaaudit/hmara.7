@@ -26,7 +26,8 @@
             background: #000;
             color: #d0f0ff;
             font-family: 'Courier New', monospace;
-            overflow: hidden;
+            overflow-x: hidden;
+            overflow-y: auto;
             min-height: 100vh;
         }
 
@@ -36,25 +37,38 @@
             z-index: 1;
         }
 
-        /* CENTRAL DASHBOARD (CENTERED & -10% SCALE) */
+        /* UI DOCK - ADAPTIVE */
         #ui-dock {
-            position: fixed;
+            position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.9);
             display: flex;
             justify-content: center;
-            align-items: center;
-            gap: 40px;
+            align-items: flex-start;
+            gap: 20px;
             z-index: 100;
             padding: 20px;
-            pointer-events: none;
             width: max-content;
             max-width: 100vw;
         }
 
+        @media (max-width: 1000px) {
+            #ui-dock {
+                position: relative;
+                top: 0;
+                left: 0;
+                transform: none;
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+                padding: 10px;
+                gap: 15px;
+            }
+        }
+
         #cloud-barometer {
-            width: 310px;
+            width: 320px;
             background: var(--glass);
             border: 1px solid var(--border);
             border-radius: 14px;
@@ -66,19 +80,43 @@
             pointer-events: auto;
         }
 
+        @media (max-width: 350px) {
+            #cloud-barometer {
+                width: 95%;
+            }
+        }
+
         #data-projection {
             flex: 1;
             max-width: 1000px;
-            pointer-events: none;
+            min-width: 320px;
             display: flex;
             flex-direction: column;
             gap: 15px;
+            background: var(--glass);
+            padding: 15px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            backdrop-filter: blur(20px);
+            pointer-events: auto;
+        }
+
+        @media (max-width: 1000px) {
+            #data-projection {
+                width: 320px;
+            }
         }
 
         .proj-section {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
+            gap: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .proj-section {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         .proj-item {
@@ -89,8 +127,8 @@
         .proj-label {
             font-size: 8px;
             color: var(--accent);
-            letter-spacing: 1.5px;
-            opacity: 0.5;
+            letter-spacing: 1px;
+            opacity: 0.6;
             margin-bottom: 2px;
             text-transform: uppercase;
         }
@@ -110,7 +148,7 @@
 
         .inst-header {
             font-size: 10px;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             color: var(--accent);
             text-transform: uppercase;
             margin-bottom: 12px;
@@ -146,20 +184,13 @@
         }
 
         @keyframes pulse-alert {
-
-            0%,
-            100% {
-                opacity: 1;
-            }
-
-            50% {
-                opacity: 0.6;
-            }
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
         }
 
         .viz-container {
             width: 100%;
-            height: 240px;
+            height: 180px;
             background: #030608;
             border-radius: 8px;
             overflow: hidden;
@@ -168,20 +199,44 @@
             border: 1px solid rgba(0, 255, 204, 0.1);
         }
 
-        #scientific-desc {
-            margin-top: 10px;
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-bottom: 10px;
+        }
+
+        .data-box {
             font-size: 10px;
-            line-height: 1.6;
+            border-left: 1px solid var(--border);
+            padding-left: 8px;
+        }
+
+        .data-box label {
+            display: block;
+            font-size: 7px;
+            color: var(--accent);
+            opacity: 0.5;
+            text-transform: uppercase;
+        }
+
+        #scientific-desc {
+            margin-top: 5px;
+            font-size: 9px;
+            line-height: 1.5;
             color: #6fffa0;
             border-left: 1px solid var(--accent);
-            padding-left: 15px;
+            padding-left: 12px;
             text-align: justify;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
         }
 
         .city-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 3px;
+            gap: 4px;
             margin-top: 10px;
         }
 
@@ -190,17 +245,18 @@
             border: 1px solid var(--border);
             color: var(--accent);
             font-size: 7.5px;
-            padding: 4px 1px;
+            padding: 5px 2px;
             cursor: pointer;
             border-radius: 3px;
             text-align: center;
-            pointer-events: auto;
             white-space: nowrap;
+            transition: all 0.2s;
         }
 
         .city-btn.active {
             background: var(--accent);
             color: #000;
+            box-shadow: 0 0 10px var(--accent);
         }
 
         #sys-log {
@@ -217,13 +273,14 @@
         }
 
         .proj-title-big {
-            font-size: 32px;
-            letter-spacing: 12px;
+            font-size: 24px;
+            letter-spacing: 8px;
             color: var(--accent);
             opacity: 0.3;
             text-align: center;
-            margin-top: 10px;
+            margin-top: 5px;
             width: 100%;
+            text-transform: uppercase;
         }
 
         .mini-compass {
@@ -242,7 +299,7 @@
     <canvas id="bg-canvas"></canvas>
 
     <div id="ui-dock">
-        <!-- БАРОМЕТР (ЗЛІВА В ДОЦІ) -->
+        <!-- БАРОМЕТР -->
         <div id="cloud-barometer">
             <div class="inst-header">IBONARIUM · ATMOS ANALYST</div>
             <div id="alert-zone"></div>
@@ -260,7 +317,7 @@
             <div id="sys-log"></div>
         </div>
 
-        <!-- АНАЛІТИКА (СПРАВА В ДОЦІ) -->
+        <!-- АНАЛІТИКА -->
         <div id="data-projection">
             <div class="proj-section">
                 <div class="proj-item">
@@ -286,7 +343,7 @@
                     <div class="proj-value" id="visib">--<span>км</span></div>
                 </div>
                 <div class="proj-item">
-                    <div class="proj-label">СОНЯЧНА РАДІАЦІЯ</div>
+                    <div class="proj-label">РАДІАЦІЯ</div>
                     <div class="proj-value" id="radiation">--<span>W/m²</span></div>
                 </div>
                 <div class="proj-item">
@@ -300,7 +357,7 @@
             </div>
             <div class="proj-section">
                 <div class="proj-item">
-                    <div class="proj-label">ҐРУНТОВА ВОЛОГА</div>
+                    <div class="proj-label">ҐРУНТ. ВОЛОГА</div>
                     <div class="proj-value" id="soil-m">--<span>m³/m³</span></div>
                 </div>
                 <div class="proj-item">
@@ -318,7 +375,7 @@
             </div>
 
             <div id="scientific-desc">
-                <b style="color:var(--accent); font-size: 11px;">[ ГЛИБОКИЙ ТЕРМОДИНАМІЧНИЙ АНАЛІЗ ]</b><br><br>
+                <b style="color:var(--accent); font-size: 10px;">[ ГЛИБОКИЙ ТЕРМОДИНАМІЧНИЙ АНАЛІЗ ]</b><br>
                 <span id="detailed-desc">Очікування потоку даних...</span>
             </div>
 
@@ -356,17 +413,22 @@
         const bgCanvas = document.getElementById('bg-canvas');
         const bgCtx = bgCanvas.getContext('2d');
 
-        const stars = Array.from({ length: 400 }, () => ({ x: Math.random(), y: Math.random(), s: Math.random() * 1.5, o: Math.random() }));
+        const stars = Array.from({ length: 300 }, () => ({ x: Math.random(), y: Math.random(), s: Math.random() * 1.5, o: Math.random() }));
 
         function resize() {
-            canvas.width = canvas.parentElement.clientWidth; canvas.height = canvas.parentElement.clientHeight;
-            cmpCanvas.width = 45; cmpCanvas.height = 45;
-            bgCanvas.width = window.innerWidth; bgCanvas.height = window.innerHeight;
+            canvas.width = canvas.parentElement.clientWidth; 
+            canvas.height = canvas.parentElement.clientHeight;
+            cmpCanvas.width = 45; 
+            cmpCanvas.height = 45;
+            bgCanvas.width = window.innerWidth; 
+            bgCanvas.height = window.innerHeight;
         }
-        window.onresize = resize; resize();
+        window.addEventListener('resize', resize);
+        resize();
 
         function drawStars(t) {
-            bgCtx.fillStyle = '#000'; bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
+            bgCtx.fillStyle = '#000';
+            bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
             stars.forEach(s => {
                 bgCtx.fillStyle = `rgba(255, 255, 255, ${0.15 + (Math.sin(t * 0.001 + s.o * 8) * 0.45)})`;
                 bgCtx.fillRect(s.x * bgCanvas.width, s.y * bgCanvas.height, s.s, s.s);
@@ -380,17 +442,23 @@
             const g = ctx.createLinearGradient(0, 0, 0, canvas.height);
             g.addColorStop(0, '#0a1a20'); g.addColorStop(1, '#000');
             ctx.fillStyle = g; ctx.fillRect(0, 0, canvas.width, canvas.height);
-            const count = Math.min(60, 25 + (weather.cover / 2));
+            
+            const count = Math.min(50, 20 + (weather.cover / 2));
             for (let i = 0; i < count; i++) {
-                let x = (Math.sin(i * 0.45 + time * 0.1) * 150 + 150 + (Math.cos(dir) * (weather.wind || 0) * time * 5) % 350) % 350 - 25;
-                let y = (Math.cos(i * 0.82 + time * 0.12) * 90 + 90 + (Math.sin(dir) * (weather.wind || 0) * time * 3) % 230) % 230 - 25;
-                const size = 60 + Math.sin(time + i) * 20 + (weather.hum * 0.35);
+                let x = (Math.sin(i * 0.45 + time * 0.1) * 120 + 120 + (Math.cos(dir) * (weather.wind || 0) * time * 5) % 250) % 250 - 25;
+                let y = (Math.cos(i * 0.82 + time * 0.12) * 70 + 70 + (Math.sin(dir) * (weather.wind || 0) * time * 3) % 180) % 180 - 25;
+                const size = 50 + Math.sin(time + i) * 15 + (weather.hum * 0.3);
                 const rG = ctx.createRadialGradient(x, y, 0, x, y, size);
-                rG.addColorStop(0, `rgba(255,255,255,${0.04 + weather.cover / 900})`); rG.addColorStop(1, 'transparent');
+                rG.addColorStop(0, `rgba(255,255,255,${0.03 + weather.cover / 1000})`);
+                rG.addColorStop(1, 'transparent');
                 ctx.fillStyle = rG; ctx.beginPath(); ctx.arc(x, y, size, 0, Math.PI * 2); ctx.fill();
             }
-            cmpCtx.clearRect(0, 0, 45, 45); cmpCtx.strokeStyle = 'rgba(0,255,204,0.15)'; cmpCtx.beginPath(); cmpCtx.arc(22.5, 22.5, 18, 0, Math.PI * 2); cmpCtx.stroke();
-            cmpCtx.strokeStyle = '#00ffcc'; const ax = 22.5 + Math.cos(dir - Math.PI / 2) * 14, ay = 22.5 + Math.sin(dir - Math.PI / 2) * 14;
+            
+            cmpCtx.clearRect(0, 0, 45, 45); 
+            cmpCtx.strokeStyle = 'rgba(0,255,204,0.15)'; 
+            cmpCtx.beginPath(); cmpCtx.arc(22.5, 22.5, 18, 0, Math.PI * 2); cmpCtx.stroke();
+            cmpCtx.strokeStyle = '#00ffcc'; 
+            const ax = 22.5 + Math.cos(dir - Math.PI / 2) * 14, ay = 22.5 + Math.sin(dir - Math.PI / 2) * 14;
             cmpCtx.lineWidth = 2; cmpCtx.beginPath(); cmpCtx.moveTo(22.5, 22.5); cmpCtx.lineTo(ax, ay); cmpCtx.stroke();
             cmpCtx.fillStyle = '#00ffcc'; cmpCtx.beginPath(); cmpCtx.arc(ax, ay, 3, 0, Math.PI * 2); cmpCtx.fill();
         }
@@ -398,7 +466,7 @@
         async function updateWeather(city = cities[0]) {
             try {
                 log(`SYNC: ${city.name.toUpperCase()}`);
-                const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,surface_pressure,wind_speed_10m,wind_direction_10m,wind_gusts_10m,uv_index,shortwave_radiation,visibility,dew_point_2m,soil_moisture_0_to_1cm&hourly=temperature_2m,surface_pressure,relative_humidity_2m&daily=sunrise,sunset&timezone=auto`);
+                const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${city.lat}&longitude=${city.lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,precipitation,weather_code,cloud_cover,cloud_cover_low,cloud_cover_mid,cloud_cover_high,surface_pressure,wind_speed_10m,wind_direction_10m,wind_gusts_10m,uv_index,shortwave_radiation,visibility,dew_point_2m,soil_moisture_0_to_1cm&hourly=temperature_2m,surface_pressure&daily=sunrise,sunset&timezone=auto`);
                 const d = await r.json(); const c = d.current;
 
                 weather = { cover: c.cloud_cover, hum: c.relative_humidity_2m, wind: c.wind_speed_10m, dir: c.wind_direction_10m };
@@ -424,10 +492,10 @@
                 document.getElementById('sunrise').textContent = new Date(d.daily.sunrise[0]).toLocaleTimeString('uk-UA', timeOpts);
                 document.getElementById('sunset').textContent = new Date(d.daily.sunset[0]).toLocaleTimeString('uk-UA', timeOpts);
 
-                // Calculate Deltas from Hourly Data
                 const hourIdx = new Date().getHours();
-                const deltaP = (d.hourly.surface_pressure[hourIdx] - d.hourly.surface_pressure[hourIdx - 1]).toFixed(2);
-                const deltaT = (d.hourly.temperature_2m[hourIdx] - d.hourly.temperature_2m[hourIdx - 1]).toFixed(2);
+                const prevIdx = hourIdx > 0 ? hourIdx - 1 : 0;
+                const deltaP = (d.hourly.surface_pressure[hourIdx] - d.hourly.surface_pressure[prevIdx]).toFixed(2);
+                const deltaT = (d.hourly.temperature_2m[hourIdx] - d.hourly.temperature_2m[prevIdx]).toFixed(2);
 
                 generateDetailedDescription(c, city.name, deltaP, deltaT);
                 updateAnalysis(c, deltaP, deltaT);
@@ -450,17 +518,16 @@
 
         function updateAnalysis(c, deltaP, deltaT) {
             const zone = document.getElementById('alert-zone');
-            const status = document.getElementById('status-text'); // actually used in desc, but we can set a sum status
             zone.innerHTML = '';
 
             const alerts = [];
             if (c.wind_speed_10m > 15) alerts.push({ text: "!! КРИТИЧНИЙ ВІТЕР !!", type: 'danger' });
             if (c.wind_gusts_10m > 20) alerts.push({ text: "!! ШТОРМОВІ ПОРИВИ !!", type: 'danger' });
-            if (deltaP < -1.5) alerts.push({ text: "!! СТРІМКЕ ПАДІННЯ ТИСКУ !!", type: 'danger' });
+            if (parseFloat(deltaP) < -1.5) alerts.push({ text: "!! СТРІМКЕ ПАДІННЯ ТИСКУ !!", type: 'danger' });
             if (c.uv_index > 6) alerts.push({ text: "!! ВИСОКА УФ-РАДІАЦІЯ !!", type: 'warning' });
             if (c.visibility < 1000) alerts.push({ text: "!! КРИТИЧНИЙ ТУМАН !!", type: 'warning' });
             if (c.shortwave_radiation > 800) alerts.push({ text: "!! ПІКОВА СОНЯЧНА ЕНЕРГІЯ !!", type: 'warning' });
-            if (Math.abs(deltaT) > 3) alerts.push({ text: "!! ТЕРМІЧНИЙ ШОК МАСИ !!", type: 'warning' });
+            if (Math.abs(parseFloat(deltaT)) > 3) alerts.push({ text: "!! ТЕРМІЧНИЙ ШОК МАСИ !!", type: 'warning' });
 
             alerts.forEach(a => {
                 const div = document.createElement('div');
@@ -485,46 +552,38 @@
             const code = c.weather_code;
             const desc = weatherMap[code] || "Стабільний стан атмосферного фронту.";
 
-            let report = `[ АНАЛІТИЧНИЙ ЗВІТ ДЛЯ ЛОКАЦІЇ: ${cityName.toUpperCase()} ]\n\n`;
-            report += `ДИНАМІКА ТА СТАН: ${desc}\n\n`;
-
-            report += `[ ТРЕНДИ ТА ВЕКТОР ЗМІН ]\n`;
-            report += `БАРІЧНИЙ ТРЕНД: ${deltaP > 0 ? "Зростання" : "Падіння"} тиску на ${Math.abs(deltaP)} hPa/год. `;
-            report += deltaP < -1.5 ? "УВАГА: Стрімке падіння тиску сигналізує про наближення циклону або шторму.\n" : (deltaP > 1.5 ? "Стрімке зростання тиску, стабілізація антициклону.\n" : "Баричне поле відносно стабільне.\n");
-
-            report += `ТЕРМІЧНИЙ ВЕКТОР: ${deltaT > 0 ? "Нагрівання" : "Охолодження"} повітряної маси (${deltaT > 0 ? "+" : ""}${deltaT} °C/год). `;
-            report += Math.abs(deltaT) > 2 ? "Зафіксовано різку зміну температурного градієнта.\n\n" : "Температурна динаміка в межах норми.\n\n";
-
-            report += `[ ТЕРМОДИНАМІЧНИЙ ПРОФІЛЬ ]\n`;
-            report += `Поточний режим ${c.temperature_2m}°C при вологості ${c.relative_humidity_2m}% створює точку роси на рівні ${c.dew_point_2m}°C. `;
-            report += `Відчутна температура ${c.apparent_temperature}°C коригується відповідно до швидкості вітру та радіаційного фону.\n\n`;
-
-            report += `[ КІНЕТИКА ТА ЕНЕРГЕТИКА ]\n`;
-            report += `Швидкість потоку: ${c.wind_speed_10m} м/с. `;
-            if (c.wind_gusts_10m > (c.wind_speed_10m * 1.5)) {
-                report += `Аномальні пориви до ${c.wind_gusts_10m} м/с свідчать про активну турбулентність та енергетичний обмін у приземному шарі. `;
-            }
-            report += `Сонячна радіація: ${c.shortwave_radiation.toFixed(0)} W/m².\n\n`;
-
-            report += `[ ГІДРОЛОГІЯ ТА КОНДЕНСАЦІЯ ]\n`;
-            report += `Хмарність нижнього ярусу: ${c.cloud_cover_low}%. `;
-            if (c.precipitation > 0) {
-                report += `Інтенсивність опадів: ${c.precipitation.toFixed(1)} мм/год. Рівень вологи ґрунту: ${c.soil_moisture_0_to_1cm ? c.soil_moisture_0_to_1cm.toFixed(3) : 'н/д'} m³/m³.`;
-            } else {
-                report += "Опадів не зафіксовано. Гідрологічний індекс стабільний.";
-            }
+            let report = `[ АНАЛІТИКА: ${cityName.toUpperCase()} ]\n`;
+            report += `ДИНАМІКА: ${desc}\n\n`;
+            report += `[ ТРЕНДИ ]\n`;
+            report += `ТИСК: ${deltaP > 0 ? "Зростання" : "Падіння"} (${Math.abs(deltaP)} hPa/год). `;
+            report += `ТЕРМІКА: ${deltaT > 0 ? "Нагрів" : "Охолодження"} (${deltaT} °C/год).\n\n`;
+            report += `[ ПРОФІЛЬ ]\n`;
+            report += `Точка роси: ${c.dew_point_2m}°C. Відчуття: ${c.apparent_temperature}°C.\n`;
+            report += `Вітер: ${c.wind_speed_10m} м/с (пориви ${c.wind_gusts_10m} м/с).\n`;
+            report += `Радіація: ${c.shortwave_radiation.toFixed(0)} W/m².\n\n`;
+            report += `[ ГІДРОЛОГІЯ ]\n`;
+            if (c.precipitation > 0) report += `Опади: ${c.precipitation.toFixed(1)} мм/год.`;
+            else report += "Опадів не зафіксовано.";
 
             document.getElementById('detailed-desc').innerText = report;
         }
 
         function log(m) {
             const l = document.getElementById('sys-log');
-            const d = document.createElement('div'); d.textContent = `> ${new Date().toLocaleTimeString()} : ${m}`;
-            l.prepend(d); if (l.childNodes.length > 3) l.removeChild(l.lastChild);
+            const d = document.createElement('div'); 
+            d.textContent = `> ${new Date().toLocaleTimeString()} : ${m}`;
+            l.prepend(d); 
+            if (l.childNodes.length > 3) l.removeChild(l.lastChild);
         }
 
-        function loop(t) { drawStars(t); drawViz(t); requestAnimationFrame(loop); }
-        updateWeather(); requestAnimationFrame(loop);
+        function loop(t) { 
+            drawStars(t); 
+            drawViz(t); 
+            requestAnimationFrame(loop); 
+        }
+        
+        updateWeather(); 
+        requestAnimationFrame(loop);
     </script>
 </body>
 
